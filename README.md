@@ -27,28 +27,28 @@ The russian version of the task can be found in the repository.
 
 As you walk past Turing's desk, you notice a sheet that says "For letters, punctuation marks, words, and sentences processing".
 
-*- "What is this, Alan?"* you said to the thoughtful young man standing at the window.
+*"What is this, Alan?"* you said to the thoughtful young man standing at the window.
 
-*-- "These are the functions that will make our lives easier! You know, deciphering Enigma by brute force…I'd rather marry Joan than we do that. Therefore, it seems that we need to keep analysing texts, looking for patterns and coincidences. And so, we’ll have to come up with various algorithms related to the processing of that very text and describe them. That is why we need a number of functions to help us with that. I'm working on them now."*
+*"These are the functions that will make our lives easier! You know, deciphering Enigma by brute force…I'd rather marry Joan than we do that. Therefore, it seems that we need to keep analysing texts, looking for patterns and coincidences. And so, we’ll have to come up with various algorithms related to the processing of that very text and describe them. That is why we need a number of functions to help us with that. I'm working on them now."*
 
-*- "And you do that using our new unified algorithms representing tool?"*
+*"And you do that using our new unified algorithms representing tool?"*
 
-*-- "Yes, this is exactly how I do it. Where else could we use these functions?"* having said that, Turing looked at you as if you were a narrow minded person. You realised it and decided to show off your knowledge of the question:
+*"Yes, this is exactly how I do it. Where else could we use these functions?"* having said that, Turing looked at you as if you were a narrow minded person. You realised it and decided to show off your knowledge of the question:
 
-*- "You know I think we really need this. I just recently learned this "specific language of algorithms transmission"."*
+*"You know I think we really need this. I just recently learned this "specific language of algorithms transmission"."*
 
-*-- "Seriously?"* Alan asked with some interest.
+*"Seriously?"* Alan asked with some interest.
 
-*- "Well, yes."*
+*"Well, yes."*
 
 After a few seconds, Turing came to a logical conclusion to entrust the job to you:
 
-*-- "Listen, do you want to do it yourself? Get some not-so-busy 
+*"Listen, do you want to do it yourself? Get some not-so-busy 
 people and go ahead. And I'll keep working on my mechanical code-breaking machine."*
 
 After thinking about it for a few seconds, you decide it's a great idea:
 
-*- "Yes, we’ll do everything in a best possible way!"*
+*"Yes, I’ll do everything in a best possible way!"*
 
 
 ## Chapter I
