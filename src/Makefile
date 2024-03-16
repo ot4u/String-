@@ -2,7 +2,7 @@ PUTb=-I/Users/theiaing/.brew/Cellar/check/0.15.2/include
 
 gcc = gcc -std=c11
 flags = -Wall -Werror -Wextra
-TEST= *.c TESTS/*.cm
+TEST= *.c TESTS/*.c
 TEST_FLAGS = -lcheck
 
 OS := $(shell uname -s)
