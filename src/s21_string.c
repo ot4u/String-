@@ -4,8 +4,8 @@
 //набросок
 
 #if defined __linux__
-#define MinCount -1
-#define MaxCount 134
+#define MinCount 0
+#define MaxCount 132
 #define UnknownError "Unknown error: %d"
 static const char *ErrorsMas[] = {
     "Success",
@@ -144,7 +144,7 @@ static const char *ErrorsMas[] = {
     "Memory page has hardware error"};
 
 #elif defined __APPLE__
-#define MinCount -1
+#define MinCount 0
 #define MaxCount 106
 #define UnknownError "Unknown error: %d"
 static const char *ErrorsMas[] = {

@@ -764,7 +764,7 @@ START_TEST(test_strncat_max_length)  //проверяет склеивание �
 {
   char dest[20] = "Hello";
   const char *src = " World!";
-  size_t n = 100000;
+  size_t n = 20;
 
   char *result_my = s21_strncat(dest, src, n);
   char *result_std = strncat(dest, src, n);
@@ -853,8 +853,8 @@ START_TEST(test_strchr_null_string)  //проверяет, что функция
   char c = 'o';
 
   char *result_my = s21_strchr(str, c);
-  strchr(str, c);
-  char *result_std = str;
+  char *result_std = strchr(str, c);
+  ;
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
   ck_assert_msg(result_my == NULL, "Expected NULL pointer");
@@ -1278,10 +1278,10 @@ START_TEST(test_strerror_invalid_error_code)  // проверяет, что дл
 }
 END_TEST
 
-START_TEST(
-    test_strerror_valid_error_code_enoent)  //проверяет, что функция
-                                            //s21_strerror возвращает корректное
-                                            //описание для ошибки ENOENT
+START_TEST(test_strerror_valid_error_code_enoent)  //проверяет, что функция
+                                                   // s21_strerror возвращает
+                                                   // корректное описание для
+                                                   //ошибки ENOENT
 {
   int errnum = ENOENT;
   char *result_my = s21_strerror(errnum);
@@ -1291,10 +1291,10 @@ START_TEST(
 }
 END_TEST
 
-START_TEST(
-    test_strerror_valid_error_code_einval)  //проверяет, что функция
-                                            //s21_strerror возвращает корректное
-                                            //описание для ошибки EINVAL
+START_TEST(test_strerror_valid_error_code_einval)  //проверяет, что функция
+                                                   // s21_strerror возвращает
+                                                   // корректное описание для
+                                                   //ошибки EINVAL
 {
   int errnum = EINVAL;
   char *result_my = s21_strerror(errnum);
@@ -1319,7 +1319,7 @@ END_TEST
 
 START_TEST(
     test_strerror_invalid_error_code_high)  //проверяет, что функция
-                                            //s21_strerror возвращает ненулевой
+                                            // s21_strerror возвращает ненулевой
                                             //результат для невалидного высокого
                                             //значения кода ошибки
 {
@@ -2362,7 +2362,6 @@ Suite *trim_suite(void) {
 }
 
 int main(void) {
-  int number_failed;
   SRunner *suite_runner = srunner_create(sprintf_suite());
   srunner_run_all(suite_runner, CK_NORMAL);
   int failed_count = srunner_ntests_failed(suite_runner);

@@ -2,7 +2,7 @@ PUTb=-I/Users/theiaing/.brew/Cellar/check/0.15.2/include
 
 gcc = gcc -std=c11
 flags = -Wall -Werror -Wextra
-TEST= *.c TESTS/*.c
+TEST= *.c TESTS/*.cm
 TEST_FLAGS = -lcheck
 
 OS := $(shell uname -s)
@@ -41,6 +41,7 @@ check:
 
 clean:
 	rm -rf s21_string_test
+	rm -rf *.gcno
 	rm -f test
 	rm -rf *.a *.o
 
