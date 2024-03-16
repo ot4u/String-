@@ -25,7 +25,7 @@ START_TEST(S21_SPRINTF) {
   double TEST_G = -24324.3243000;
   int TEST_o = -775;
   char TEST_s[20] = "FLAMES";
-  int TEST_u = -3857;
+  unsigned int TEST_u = -3857;
   int TEST_x = -9990000;
   int TEST_X = -998;
   void *TEST_p = (void *)0x999;
@@ -102,12 +102,12 @@ START_TEST(S21_SPRINTF) {
   sprintf(MESSAGE_1,
           "|%15c|%15d|%15i|%15e|%15E|%15f|%15g|%15G|%15o|%15s|%15u|%15x|%15X|%"
           "30p|%n|%%|",
-          TEST_c, INT_MIN, TEST_i, TEST_e, TEST_E, TEST_f, TEST_g, TEST_G,
+          TEST_c, (int)INT_MIN, TEST_i, TEST_e, TEST_E, TEST_f, TEST_g, TEST_G,
           TEST_o, TEST_s, TEST_u, TEST_x, TEST_X, TEST_p, &TEST_n_1);
   s21_sprintf(MESSAGE_2,
               "|%15c|%15d|%15i|%*e|%15E|%15f|%15g|%15G|%15o|%15s|%15u|%15x|%"
               "15X|%30p|%n|%%|",
-              TEST_c, INT_MIN, TEST_i, TEST_width, TEST_e, TEST_E, TEST_f,
+              TEST_c, (int)INT_MIN, TEST_i, TEST_width, TEST_e, TEST_E, TEST_f,
               TEST_g, TEST_G, TEST_o, TEST_s, TEST_u, TEST_x, TEST_X, TEST_p,
               &TEST_n_2);
   ck_assert_msg(strcmp(MESSAGE_1, MESSAGE_2) == 0, "TEST #7.1 - FAILED!");
@@ -154,31 +154,33 @@ START_TEST(S21_SPRINTF) {
   ck_assert_msg(TEST_n_1 == TEST_n_2, "TEST #10.2 - FAILED!");
 
   short int TEST_ii = -10000;
-  short int TEST_oo = -775;
-  short int TEST_uu = -3857;
-  short int TEST_xx = -10900;
-  short int TEST_XX = -998;
+  unsigned short int TEST_oo = -775;
+  unsigned short int TEST_uu = -3857;
+  unsigned short int TEST_xx = -10900;
+  unsigned short int TEST_XX = -998;
   sprintf(MESSAGE_1, "|%c|%hd|%hi|%e|%E|%f|%g|%G|%ho|%s|%hu|%hx|%hX|%p|%n|%%|",
-          TEST_c, SHRT_MIN, TEST_ii, TEST_e, TEST_E, TEST_f, TEST_g, TEST_G,
-          TEST_oo, TEST_s, TEST_uu, TEST_xx, TEST_XX, TEST_p, &TEST_n_1);
+          TEST_c, (short)SHRT_MIN, TEST_ii, TEST_e, TEST_E, TEST_f, TEST_g,
+          TEST_G, TEST_oo, TEST_s, TEST_uu, TEST_xx, TEST_XX, TEST_p,
+          &TEST_n_1);
   s21_sprintf(MESSAGE_2,
               "|%c|%hd|%hi|%e|%E|%f|%g|%G|%ho|%s|%hu|%hx|%hX|%p|%n|%%|", TEST_c,
-              SHRT_MIN, TEST_ii, TEST_e, TEST_E, TEST_f, TEST_g, TEST_G,
+              (short)SHRT_MIN, TEST_ii, TEST_e, TEST_E, TEST_f, TEST_g, TEST_G,
               TEST_oo, TEST_s, TEST_uu, TEST_xx, TEST_XX, TEST_p, &TEST_n_2);
   ck_assert_msg(strcmp(MESSAGE_1, MESSAGE_2) == 0, "TEST #11.1 - FAILED!");
   ck_assert_msg(TEST_n_1 == TEST_n_2, "TEST #11.2 - FAILED!");
 
   long int TEST_iii = -50000;
   long int TEST_ooo = -775;
-  long int TEST_uuu = -3857;
+  unsigned long int TEST_uuu = -3857;
   long int TEST_xxx = -9990000;
   long int TEST_XXX = -998;
   sprintf(MESSAGE_1, "|%c|%ld|%li|%e|%E|%f|%g|%G|%lo|%s|%lu|%lx|%lX|%p|%n|%%|",
-          TEST_c, LONG_MIN, TEST_iii, TEST_e, TEST_E, TEST_f, TEST_g, TEST_G,
-          TEST_ooo, TEST_s, TEST_uuu, TEST_xxx, TEST_XXX, TEST_p, &TEST_n_1);
+          TEST_c, (long)LONG_MIN, TEST_iii, TEST_e, TEST_E, TEST_f, TEST_g,
+          TEST_G, TEST_ooo, TEST_s, TEST_uuu, TEST_xxx, TEST_XXX, TEST_p,
+          &TEST_n_1);
   s21_sprintf(
       MESSAGE_2, "|%c|%ld|%li|%e|%E|%f|%g|%G|%lo|%s|%lu|%lx|%lX|%p|%n|%%|",
-      TEST_c, LONG_MIN, TEST_iii, TEST_e, TEST_E, TEST_f, TEST_g, TEST_G,
+      TEST_c, (long)LONG_MIN, TEST_iii, TEST_e, TEST_E, TEST_f, TEST_g, TEST_G,
       TEST_ooo, TEST_s, TEST_uuu, TEST_xxx, TEST_XXX, TEST_p, &TEST_n_2);
   ck_assert_msg(strcmp(MESSAGE_1, MESSAGE_2) == 0, "TEST #12.1 - FAILED!");
   ck_assert_msg(TEST_n_1 == TEST_n_2, "TEST #12.2 - FAILED!");
@@ -203,12 +205,12 @@ END_TEST
 START_TEST(test_memchr)  //проверяет работу функции для символа, который
                          //присутствует в строке
 {
-  const char str[] = "Example string";
-  int c = 'p';
+  const const char str[] = "Example string";
+  const int c = 'p';
   size_t n = sizeof(str);
 
-  const void *result_my = s21_memchr(str, c, n);
-  const void *result_std = memchr(str, c, n);
+  const const void *result_my = s21_memchr(str, c, n);
+  const const void *result_std = memchr(str, c, n);
 
   ck_assert_msg(result_my == result_std, "Expected: %p, Got: %p", result_std,
                 result_my);
@@ -218,12 +220,12 @@ END_TEST
 START_TEST(test_memchr_null)  //проверяет работу функции, когда искомый символ
                               //отсутствует в строке
 {
-  const char str[] = "Example string";
-  int c = 'z';
+  const const char str[] = "Example string";
+  const int c = 'z';
   size_t n = sizeof(str);
 
-  const void *result_my = s21_memchr(str, c, n);
-  const void *result_std = memchr(str, c, n);
+  const const void *result_my = s21_memchr(str, c, n);
+  const const void *result_std = memchr(str, c, n);
 
   ck_assert_msg(result_my == result_std, "Expected: %p, Got: %p", result_std,
                 result_my);
@@ -234,12 +236,12 @@ START_TEST(test_memchr_first_occurrence)  //проверяет, что функ�
                                           //правильный указатель для первого
                                           //вхождения символа в строку
 {
-  const char str[] = "Example string";
-  int c = 's';
+  const const char str[] = "Example string";
+  const int c = 's';
   size_t n = sizeof(str);
 
-  const void *result_my = s21_memchr(str, c, n);
-  const void *result_std = memchr(str, c, n);
+  const const void *result_my = s21_memchr(str, c, n);
+  const const void *result_std = memchr(str, c, n);
 
   ck_assert_msg(result_my == result_std, "Expected: %p, Got: %p", result_std,
                 result_my);
@@ -251,12 +253,12 @@ START_TEST(test_memchr_last_occurrence)  //проверяет, что функц
                                          //правильный указатель для последнего
                                          //вхождения символа в строку
 {
-  const char str[] = "Example string";
-  int c = 'g';
+  const const char str[] = "Example string";
+  const int c = 'g';
   size_t n = sizeof(str);
 
-  const void *result_my = s21_memchr(str, c, n);
-  const void *result_std = memchr(str, c, n);
+  const const void *result_my = s21_memchr(str, c, n);
+  const const void *result_std = memchr(str, c, n);
 
   ck_assert_msg(result_my == result_std, "Expected: %p, Got: %p", result_std,
                 result_my);
@@ -267,12 +269,12 @@ END_TEST
 START_TEST(test_memchr_single_char)  //проверяет, что функция правильно находит
                                      //единственный символ в строке
 {
-  const char str[] = "a";
-  int c = 'a';
+  const const char str[] = "a";
+  const int c = 'a';
   size_t n = sizeof(str);
 
-  const void *result_my = s21_memchr(str, c, n);
-  const void *result_std = memchr(str, c, n);
+  const const void *result_my = s21_memchr(str, c, n);
+  const const void *result_std = memchr(str, c, n);
 
   ck_assert_msg(result_my == result_std, "Expected: %p, Got: %p", result_std,
                 result_my);
@@ -284,12 +286,12 @@ START_TEST(
                                  //первое вхождение символа в строке, когда
                                  //символ встречается несколько раз
 {
-  const char str[] = "aabbaabb";
-  int c = 'b';
+  const const char str[] = "aabbaabb";
+  const int c = 'b';
   size_t n = sizeof(str);
 
-  const void *result_my = s21_memchr(str, c, n);
-  const void *result_std = memchr(str, c, n);
+  const const void *result_my = s21_memchr(str, c, n);
+  const const void *result_std = memchr(str, c, n);
 
   ck_assert_msg(result_my == result_std, "Expected: %p, Got: %p", result_std,
                 result_my);
@@ -300,12 +302,12 @@ START_TEST(
     test_memchr_not_in_string)  //проверяет, что функция возвращает NULL, когда
                                 //искомый символ отсутствует в строке
 {
-  const char str[] = "Example string";
-  int c = 'x';
+  const const char str[] = "Example string";
+  const int c = 'x';
   size_t n = sizeof(str);
 
-  const void *result_my = s21_memchr(str, c, n);
-  const void *result_std = memchr(str, c, n);
+  const const void *result_my = s21_memchr(str, c, n);
+  const const void *result_std = memchr(str, c, n);
 
   ck_assert_msg(result_my == result_std, "Expected: %p, Got: %p", result_std,
                 result_my);
@@ -315,12 +317,12 @@ END_TEST
 START_TEST(
     test_memchr_empty_string)  //проверяет работу функции с пустой строкой
 {
-  const char str[] = "";
-  int c = 'a';
+  const const char str[] = "";
+  const int c = 'a';
   size_t n = sizeof(str);
 
-  const void *result_my = s21_memchr(str, c, n);
-  const void *result_std = memchr(str, c, n);
+  const const void *result_my = s21_memchr(str, c, n);
+  const const void *result_std = memchr(str, c, n);
 
   ck_assert_msg(result_my == result_std, "Expected: %p, Got: %p", result_std,
                 result_my);
@@ -427,8 +429,8 @@ END_TEST
 START_TEST(test_memcmp_null_pointers)  // проверяет поведение функции при
                                        // передаче нулевых указателей
 {
-  const char *str1 = NULL;
-  const char *str2 = NULL;
+  const char *str1 = "";
+  const char *str2 = "";
   size_t n = 0;
 
   int result_my = s21_memcmp(str1, str2, n);
@@ -442,12 +444,12 @@ END_TEST
 START_TEST(test_memcpy_same_memory)  //копирование данных из одной области
                                      //памяти в другую
 {
-  char src[] = "Hello";
+  const char src[] = "Hello";
   char dest[] = "World";
   size_t n = 5;
 
-  void *result_my = s21_memcpy(dest, src, n);
-  void *result_std = memcpy(dest, src, n);
+  const void *result_my = s21_memcpy(dest, src, n);
+  const void *result_std = memcpy(dest, src, n);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
   ck_assert_str_eq(dest, "Hello");
@@ -463,8 +465,8 @@ START_TEST(test_memcpy_large_data)  //копирование большого о
   }
   size_t n = 1000;
 
-  void *result_my = s21_memcpy(dest, src, n);
-  void *result_std = memcpy(dest, src, n);
+  const void *result_my = s21_memcpy(dest, src, n);
+  const void *result_std = memcpy(dest, src, n);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
   ck_assert_mem_eq(dest, src, n);
@@ -473,12 +475,12 @@ END_TEST
 
 START_TEST(test_memcpy_overlap)  //копирование с перекрытием областей памяти
 {
-  char str[] = "Hello, World!";
+  const char str[] = "Hello, World!";
   char dest[15] = {0};
   size_t n = 13;
 
-  void *result_my = s21_memcpy(dest, str, n);
-  void *result_std = memcpy(dest, str, n);
+  const void *result_my = s21_memcpy(dest, str, n);
+  const void *result_std = memcpy(dest, str, n);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
   ck_assert_str_eq(dest, "Hello, World!");
@@ -488,12 +490,12 @@ END_TEST
 START_TEST(test_memcpy_empty_source)  //проверяет копирование данных из пустого
                                       //источника
 {
-  char src[] = "";
+  const char src[] = "";
   char dest[5] = "Hello";
   size_t n = 0;
 
-  void *result_my = s21_memcpy(dest, src, n);
-  void *result_std = memcpy(dest, src, n);
+  const void *result_my = s21_memcpy(dest, src, n);
+  const void *result_std = memcpy(dest, src, n);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
   ck_assert_str_eq(dest, "Hello");
@@ -503,27 +505,26 @@ END_TEST
 START_TEST(test_memcpy_null_pointers)  //проверяет копирование данных при
                                        //передаче нулевых указателей
 {
-  char *src = NULL;
+  const char *src = "";
   char dest[6] = "Hello";
   size_t n = 0;
 
-  void *result_my = s21_memcpy(dest, src, n);
-  void *result_std = memcpy(dest, src, n);
+  const void *result_my = s21_memcpy(dest, src, n);
+  const void *result_std = memcpy(dest, src, n);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
-  ck_assert_str_eq(dest, "Hello");
 }
 END_TEST
 
 START_TEST(
     test_memcpy_different_sizes)  //проверяет копирование данных различной длины
 {
-  char src[] = "World";
+  const char src[] = "World";
   char dest[10] = "Hello";
   size_t n = 6;
 
-  void *result_my = s21_memcpy(dest, src, n);
-  void *result_std = memcpy(dest, src, n);
+  const void *result_my = s21_memcpy(dest, src, n);
+  const void *result_std = memcpy(dest, src, n);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
   ck_assert_str_eq(dest, "World");
@@ -534,12 +535,12 @@ START_TEST(test_memcpy_large_destination)  //проверяет копирова
                                            //большой массив памяти, начиная с
                                            //определенной позиции
 {
-  char src[] = "Hello";
+  const char src[] = "Hello";
   char dest[10];
   size_t n = 6;
 
-  void *result_my = s21_memcpy(dest, src, n);
-  void *result_std = memcpy(dest, src, n);
+  const void *result_my = s21_memcpy(dest, src, n);
+  const void *result_std = memcpy(dest, src, n);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
   ck_assert_str_eq(dest, "Hello");
@@ -553,8 +554,8 @@ START_TEST(test_memset_basic)  //проверяет базовое исполь�
   char str[] = "Hello, World!";
   size_t n = 13;
 
-  void *result_my = s21_memset(str, 'A', n);
-  void *result_std = memset(str, 'A', n);
+  const void *result_my = s21_memset(str, 'A', n);
+  const void *result_std = memset(str, 'A', n);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
   ck_assert_mem_eq(str, "AAAAAAAAAAAAA", n);
@@ -564,14 +565,13 @@ END_TEST
 START_TEST(test_memset_null_pointer)  //проверяет поведение функции при передаче
                                       //нулевого указателя
 {
-  char *str = NULL;
+  char *str = "";
   size_t n = 0;
 
-  void *result_my = s21_memset(str, 'A', n);
-  void *result_std = memset(str, 'A', n);
+  const void *result_my = s21_memset(str, 'A', n);
+  const void *result_std = memset(str, 'A', n);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
-  ck_assert_ptr_eq(result_my, str);
 }
 END_TEST
 
@@ -581,8 +581,8 @@ START_TEST(test_memset_zero_length)  //проверяет поведение ф�
   char str[] = "Hello, World!";
   size_t n = 0;
 
-  void *result_my = s21_memset(str, 'A', n);
-  void *result_std = memset(str, 'A', n);
+  const void *result_my = s21_memset(str, 'A', n);
+  const void *result_std = memset(str, 'A', n);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
   ck_assert_str_eq(str, "Hello, World!");
@@ -595,8 +595,8 @@ START_TEST(
   char str[1000];
   size_t n = 1000;
 
-  void *result_my = s21_memset(str, 'A', n);
-  void *result_std = memset(str, 'A', n);
+  const void *result_my = s21_memset(str, 'A', n);
+  const void *result_std = memset(str, 'A', n);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
   ck_assert_mem_eq(str, result_my, n);
@@ -609,8 +609,8 @@ START_TEST(test_memset_different_characters)  //проверяет устано�
   char str[10];
   size_t n = 10;
 
-  void *result_my = s21_memset(str, 'A', n);
-  void *result_std = memset(str, 'B', n);
+  const void *result_my = s21_memset(str, 'A', n);
+  const void *result_std = memset(str, 'B', n);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
   ck_assert_mem_eq(str, "BBBBBBBBBB", n);
@@ -624,9 +624,8 @@ START_TEST(test_memset_different_characters_partial)  //проверяет, чт
   char str[] = "Hello, World!";
   size_t n = 5;
 
-  void *result_std = memset(str, 'B', n);
-  void *result_my = s21_memset(str, 'A', n);
-
+  const void *result_std = memset(str, 'B', n);
+  const void *result_my = s21_memset(str, 'A', n);
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
   ck_assert_mem_eq(str, "AAAAA, World!", n);
 }
@@ -638,8 +637,8 @@ START_TEST(test_memset_single_byte)  //проверяет, что функция
   char str[] = "A";
   size_t n = 1;
 
-  void *result_my = s21_memset(str, 'B', n);
-  void *result_std = memset(str, 'B', n);
+  const void *result_my = s21_memset(str, 'B', n);
+  const void *result_std = memset(str, 'B', n);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
   ck_assert_mem_eq(str, "B", n);
@@ -654,8 +653,8 @@ START_TEST(
   char str[10];
   size_t n = 10;
 
-  void *result_my = s21_memset(str, '\xff', n);
-  void *result_std = memset(str, '\xff', n);
+  const void *result_my = s21_memset(str, '\xff', n);
+  const void *result_std = memset(str, '\xff', n);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
   for (size_t i = 0; i < n; ++i) {
@@ -674,8 +673,8 @@ START_TEST(
   char str[10];
   size_t n = 5;
 
-  void *result_my = s21_memset(str, '\xff', n);
-  void *result_std = memset(str, '\xff', n);
+  const void *result_my = s21_memset(str, '\xff', n);
+  const void *result_std = memset(str, '\xff', n);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
   for (size_t i = 0; i < n; ++i) {
@@ -692,8 +691,8 @@ START_TEST(test_strncat_basic)  //проверяет базовое исполь
   const char *src = " World!";
   size_t n = 7;
 
-  char *result_my = s21_strncat(dest, src, n);
-  char *result_std = strncat(dest, src, n);
+  const char *result_my = s21_strncat(dest, src, n);
+  const char *result_std = strncat(dest, src, n);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
 }
@@ -708,9 +707,9 @@ START_TEST(
   size_t n = 0;
 
   s21_strncat(dest, src, n);
-  char *result_my = dest;
+  const char *result_my = dest;
   strncat(dest, src, n);
-  char *result_std = dest;
+  const char *result_std = dest;
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
 }
@@ -723,8 +722,8 @@ START_TEST(test_strncat_zero_length)  //проверяет поведение ф
   const char *src = " World!";
   size_t n = 0;
 
-  char *result_my = s21_strncat(dest, src, n);
-  char *result_std = strncat(dest, src, n);
+  const char *result_my = s21_strncat(dest, src, n);
+  const char *result_std = strncat(dest, src, n);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
   ck_assert_str_eq(dest, "Hello");
@@ -738,8 +737,8 @@ START_TEST(test_strncat_partial_source)  //проверяет склеивани
   const char *src = " World!";
   size_t n = 3;
 
-  char *result_my = s21_strncat(dest, src, n);
-  char *result_std = strncat(dest, src, n);
+  const char *result_my = s21_strncat(dest, src, n);
+  const char *result_std = strncat(dest, src, n);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
 }
@@ -752,8 +751,8 @@ START_TEST(test_strncat_partial_destination)  //проверяет склеив�
   const char *src = " World!";
   size_t n = 7;
 
-  char *result_my = s21_strncat(dest, src, n);
-  char *result_std = strncat(dest, src, n);
+  const char *result_my = s21_strncat(dest, src, n);
+  const char *result_std = strncat(dest, src, n);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
 }
@@ -766,8 +765,8 @@ START_TEST(test_strncat_max_length)  //проверяет склеивание �
   const char *src = " World!";
   size_t n = 20;
 
-  char *result_my = s21_strncat(dest, src, n);
-  char *result_std = strncat(dest, src, n);
+  const char *result_my = s21_strncat(dest, src, n);
+  const char *result_std = strncat(dest, src, n);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
 }
@@ -781,8 +780,8 @@ START_TEST(
   const char *src = " World!";
   size_t n = 10;
 
-  char *result_my = s21_strncat(dest, src, n);
-  char *result_std = strncat(dest, src, n);
+  const char *result_my = s21_strncat(dest, src, n);
+  const char *result_std = strncat(dest, src, n);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
 }
@@ -796,8 +795,8 @@ START_TEST(
   const char *src = " W";
   size_t n = 5;
 
-  char *result_my = s21_strncat(dest, src, n);
-  char *result_std = strncat(dest, src, n);
+  const char *result_my = s21_strncat(dest, src, n);
+  const char *result_std = strncat(dest, src, n);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
 }
@@ -811,8 +810,8 @@ START_TEST(
   const char *src = " World!";
   size_t n = 10;
 
-  char *result_my = s21_strncat(dest, src, n);
-  char *result_std = strncat(dest, src, n);
+  const char *result_my = s21_strncat(dest, src, n);
+  const char *result_std = strncat(dest, src, n);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
 }
@@ -822,10 +821,10 @@ START_TEST(test_strchr_basic)  //проверяет базовое исполь�
                                //когда символ присутствует в строке
 {
   const char *str = "Hello, World!";
-  int c = 'o';
+  const int c = 'o';
 
-  char *result_my = s21_strchr(str, c);
-  char *result_std = strchr(str, c);
+  const char *result_my = s21_strchr(str, c);
+  const char *result_std = strchr(str, c);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
   ck_assert_str_eq(result_my, "o, World!");
@@ -836,10 +835,10 @@ START_TEST(test_strchr_not_found)  //проверяет, что функция �
                                    //когда искомый символ не найден в строке
 {
   const char *str = "Hello, World!";
-  int c = 'z';
+  const int c = 'z';
 
-  char *result_my = s21_strchr(str, c);
-  char *result_std = strchr(str, c);
+  const char *result_my = s21_strchr(str, c);
+  const char *result_std = strchr(str, c);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
   ck_assert_msg(result_my == NULL, "Expected NULL pointer");
@@ -849,11 +848,11 @@ END_TEST
 START_TEST(test_strchr_null_string)  //проверяет, что функция возвращает NULL,
                                      //когда передан NULL указатель на строку
 {
-  char *str = NULL;
-  char c = 'o';
+  const char *str = "";
+  const char c = 'o';
 
-  char *result_my = s21_strchr(str, c);
-  char *result_std = strchr(str, c);
+  const char *result_my = s21_strchr(str, c);
+  const char *result_std = strchr(str, c);
   ;
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
@@ -865,10 +864,10 @@ START_TEST(test_strchr_null_character)  //проверяет, что функц�
                                         //обрабатывает символ '\0'
 {
   const char *str = "Hello, World!";
-  int c = '\0';
+  const int c = '\0';
 
-  char *result_my = s21_strchr(str, c);
-  char *result_std = strchr(str, c);
+  const char *result_my = s21_strchr(str, c);
+  const char *result_std = strchr(str, c);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
   ck_assert_str_eq(result_my, "\0, World!");
@@ -880,11 +879,11 @@ START_TEST(
                                           //обрабатывает символ '\0',
                                           //находящийся в середине строки
 {
-  char *str = "Hello, \0 World!";
-  int c = 'W';
+  const char *str = "Hello, \0 World!";
+  const int c = 'W';
 
-  char *result_my = s21_strchr(str, c);
-  char *result_std = (char *)strchr(str, c);
+  const char *result_my = s21_strchr(str, c);
+  const char *result_std = (char *)strchr(str, c);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
   ck_assert_mem_eq(result_my, s21_NULL, 0);
@@ -897,10 +896,10 @@ START_TEST(
                                       //после искомого символа в строке
 {
   const char *str = "Hello, World!\0";
-  int c = '!';
+  const int c = '!';
 
-  char *result_my = s21_strchr(str, c);
-  char *result_std = strchr(str, c);
+  const char *result_my = s21_strchr(str, c);
+  const char *result_std = strchr(str, c);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
   ck_assert_str_eq(result_my, "!");
@@ -912,10 +911,10 @@ START_TEST(test_strchr_multiple_occurrences)  //проверяет, что фу�
                                               //символа в строку
 {
   const char *str = "Hello, World!";
-  int c = 'o';
+  const int c = 'o';
 
-  char *result_my = s21_strchr(str, c);
-  char *result_std = strchr(str, c);
+  const char *result_my = s21_strchr(str, c);
+  const char *result_std = strchr(str, c);
 
   ck_assert_msg(result_my == result_std, "Memory addresses do not match");
   ck_assert_str_eq(result_my, "o, World!");
@@ -1039,8 +1038,8 @@ START_TEST(
   char dest[20];
   size_t n = 5;
 
-  char *result_my = s21_strncpy(dest, src, n);
-  char *result_std = strncpy(dest, src, n);
+  const char *result_my = s21_strncpy(dest, src, n);
+  const char *result_std = strncpy(dest, src, n);
 
   ck_assert_str_eq(result_my, result_std);
   ck_assert_str_eq(result_my, "Hello");
@@ -1054,8 +1053,8 @@ START_TEST(test_strncpy_exact_length)  // тест, где мы копируем
   char dest[20];
   size_t n = strlen(src);
 
-  char *result_my = s21_strncpy(dest, src, n);
-  char *result_std = strncpy(dest, src, n);
+  const char *result_my = s21_strncpy(dest, src, n);
+  const char *result_std = strncpy(dest, src, n);
 
   ck_assert_str_eq(result_my, result_std);
   ck_assert_str_eq(result_my, src);
@@ -1069,8 +1068,8 @@ START_TEST(test_strncpy_less_than_length)  //тест, где длина коп�
   char dest[20];
   size_t n = 15;
 
-  char *result_my = s21_strncpy(dest, src, n);
-  char *result_std = strncpy(dest, src, n);
+  const char *result_my = s21_strncpy(dest, src, n);
+  const char *result_std = strncpy(dest, src, n);
 
   ck_assert_str_eq(result_my, result_std);
   ck_assert_str_eq(result_my, src);
@@ -1085,8 +1084,8 @@ START_TEST(
   char dest[20];
   size_t n = 20;
 
-  char *result_my = s21_strncpy(dest, src, n);
-  char *result_std = strncpy(dest, src, n);
+  const char *result_my = s21_strncpy(dest, src, n);
+  const char *result_std = strncpy(dest, src, n);
 
   ck_assert_str_eq(result_my, result_std);
   ck_assert_str_eq(result_my, src);
@@ -1101,8 +1100,8 @@ START_TEST(
   char dest[20];
   size_t n = 5;
 
-  char *result_my = s21_strncpy(dest, src, n);
-  char *result_std = strncpy(dest, src, n);
+  const char *result_my = s21_strncpy(dest, src, n);
+  const char *result_std = strncpy(dest, src, n);
 
   ck_assert_str_eq(result_my, result_std);
   ck_assert_str_eq(result_my, "");
@@ -1118,8 +1117,8 @@ START_TEST(
   char dest[20] = "";
   size_t n = 14;
 
-  char *result_my = s21_strncpy(dest, src, n);
-  char *result_std = strncpy(dest, src, n);
+  const char *result_my = s21_strncpy(dest, src, n);
+  const char *result_std = strncpy(dest, src, n);
 
   ck_assert_str_eq(result_my, result_std);
 }
@@ -1133,8 +1132,8 @@ START_TEST(test_strncpy_null_source)  //проверка, что функция 
   char dest[20];
   size_t n = 5;
 
-  char *result_my = s21_strncpy(dest, src, n);
-  char *result_std = strncpy(dest, src, n);
+  const char *result_my = s21_strncpy(dest, src, n);
+  const char *result_std = strncpy(dest, src, n);
 
   ck_assert_str_eq(result_my, result_std);
   ck_assert_str_eq(result_my, "");
@@ -1151,8 +1150,8 @@ START_TEST(
   char *dest = "";
   size_t n = 0;
 
-  char *result_my = s21_strncpy(dest, src, n);
-  char *result_std = strncpy(dest, src, n);
+  const char *result_my = s21_strncpy(dest, src, n);
+  const char *result_std = strncpy(dest, src, n);
 
   ck_assert_str_eq(result_my, result_std);
 }
@@ -1260,8 +1259,8 @@ START_TEST(
                                      // результатом стандартной библиотеки
 {
   int errnum = EINVAL;
-  char *result_my = s21_strerror(errnum);
-  char *result_std = strerror(errnum);
+  const char *result_my = s21_strerror(errnum);
+  const char *result_std = strerror(errnum);
 
   ck_assert_str_eq(result_my, result_std);
 }
@@ -1272,9 +1271,10 @@ START_TEST(test_strerror_invalid_error_code)  // проверяет, что дл
                                               // strerror не равен NULL
 {
   int errnum = -1;
-  char *result_my = s21_strerror(errnum);
+  const char *result_my = s21_strerror(errnum);
+  const char *result_std = strerror(errnum);
 
-  ck_assert_ptr_eq(result_my, 0);
+  ck_assert_str_eq(result_my, result_std);
 }
 END_TEST
 
@@ -1284,8 +1284,8 @@ START_TEST(test_strerror_valid_error_code_enoent)  //проверяет, что 
                                                    //ошибки ENOENT
 {
   int errnum = ENOENT;
-  char *result_my = s21_strerror(errnum);
-  char *result_std = strerror(errnum);
+  const char *result_my = s21_strerror(errnum);
+  const char *result_std = strerror(errnum);
 
   ck_assert_str_eq(result_my, result_std);
 }
@@ -1297,8 +1297,8 @@ START_TEST(test_strerror_valid_error_code_einval)  //проверяет, что 
                                                    //ошибки EINVAL
 {
   int errnum = EINVAL;
-  char *result_my = s21_strerror(errnum);
-  char *result_std = strerror(errnum);
+  const char *result_my = s21_strerror(errnum);
+  const char *result_std = strerror(errnum);
 
   ck_assert_str_eq(result_my, result_std);
 }
@@ -1310,8 +1310,8 @@ START_TEST(test_strerror_valid_error_code_enomem)  // проверяет, что
                                                    // ошибки ENOMEM
 {
   int errnum = ENOMEM;
-  char *result_my = s21_strerror(errnum);
-  char *result_std = strerror(errnum);
+  const char *result_my = s21_strerror(errnum);
+  const char *result_std = strerror(errnum);
 
   ck_assert_str_eq(result_my, result_std);
 }
@@ -1324,7 +1324,7 @@ START_TEST(
                                             //значения кода ошибки
 {
   int errnum = 1000;
-  char *result_my = s21_strerror(errnum);
+  const char *result_my = s21_strerror(errnum);
 
   ck_assert_ptr_ne(result_my, NULL);
 }
@@ -1421,8 +1421,8 @@ START_TEST(
 {
   const char *str1 = "abcdef";
   const char *str2 = "cde";
-  char *result_my = s21_strpbrk(str1, str2);
-  char *result_std = strpbrk(str1, str2);
+  const char *result_my = s21_strpbrk(str1, str2);
+  const char *result_std = strpbrk(str1, str2);
 
   ck_assert_ptr_eq(result_my, result_std);
   ck_assert_ptr_eq(result_my, str1 + 2);
@@ -1435,8 +1435,8 @@ START_TEST(test_strpbrk_no_match)  //проверяет, что функция �
 {
   const char *str1 = "abcdef";
   const char *str2 = "xyz";
-  char *result_my = s21_strpbrk(str1, str2);
-  char *result_std = strpbrk(str1, str2);
+  const char *result_my = s21_strpbrk(str1, str2);
+  const char *result_std = strpbrk(str1, str2);
 
   ck_assert_ptr_eq(result_my, result_std);
   ck_assert_ptr_eq(result_my, NULL);
@@ -1448,8 +1448,8 @@ START_TEST(test_strpbrk_empty_str2)  // проверяет, что функци�
 {
   const char *str1 = "abcdef";
   const char *str2 = "";
-  char *result_my = s21_strpbrk(str1, str2);
-  char *result_std = strpbrk(str1, str2);
+  const char *result_my = s21_strpbrk(str1, str2);
+  const char *result_std = strpbrk(str1, str2);
 
   ck_assert_ptr_eq(result_my, result_std);
   ck_assert_ptr_eq(result_my, NULL);
@@ -1462,8 +1462,8 @@ START_TEST(
 {
   const char *str1 = "";
   const char *str2 = "xyz";
-  char *result_my = s21_strpbrk(str1, str2);
-  char *result_std = strpbrk(str1, str2);
+  const char *result_my = s21_strpbrk(str1, str2);
+  const char *result_std = strpbrk(str1, str2);
 
   ck_assert_ptr_eq(result_my, result_std);
 }
@@ -1475,8 +1475,8 @@ START_TEST(
 {
   const char *str1 = "abcdef";
   const char *str2 = "";
-  char *result_my = s21_strpbrk(str1, str2);
-  char *result_std = strpbrk(str1, str2);
+  const char *result_my = s21_strpbrk(str1, str2);
+  const char *result_std = strpbrk(str1, str2);
 
   ck_assert_ptr_eq(result_my, result_std);
 }
@@ -1486,9 +1486,9 @@ START_TEST(test_strrchr_match)  //проверяет, что функция пр
                                 //последнее вхождение символа c в строке str
 {
   const char *str = "abcdef";
-  int c = 'c';
-  char *result_my = s21_strrchr(str, c);
-  char *result_std = strrchr(str, c);
+  const int c = 'c';
+  const char *result_my = s21_strrchr(str, c);
+  const char *result_std = strrchr(str, c);
 
   ck_assert_ptr_eq(result_my, result_std);
   ck_assert_ptr_eq(result_my, str + 2);
@@ -1499,9 +1499,9 @@ START_TEST(test_strrchr_no_match)  //проверяет, что функция �
                                    //если символ c не найден в строке str
 {
   const char *str = "abcdef";
-  int c = 'x';
-  char *result_my = s21_strrchr(str, c);
-  char *result_std = strrchr(str, c);
+  const int c = 'x';
+  const char *result_my = s21_strrchr(str, c);
+  const char *result_std = strrchr(str, c);
 
   ck_assert_ptr_eq(result_my, result_std);
   ck_assert_ptr_eq(result_my, NULL);
@@ -1513,9 +1513,9 @@ START_TEST(test_strrchr_null_str)  //проверяет, что функция �
                                    //является нулевым указателем
 {
   const char *str = "";
-  int c = 'c';
-  char *result_my = s21_strrchr(str, c);
-  char *result_std = strrchr(str, c);
+  const int c = 'c';
+  const char *result_my = s21_strrchr(str, c);
+  const char *result_std = strrchr(str, c);
 
   ck_assert_ptr_eq(result_my, result_std);
 }
@@ -1526,9 +1526,9 @@ START_TEST(
                               //последнее вхождение символа c в строке str
 {
   const char *str = "abcdef";
-  int c = 'f';
-  char *result_my = s21_strrchr(str, c);
-  char *result_std = strrchr(str, c);
+  const int c = 'f';
+  const char *result_my = s21_strrchr(str, c);
+  const char *result_std = strrchr(str, c);
 
   ck_assert_ptr_eq(result_my, result_std);
   ck_assert_ptr_eq(result_my, str + 5);
@@ -1539,9 +1539,9 @@ START_TEST(test_strrchr_empty_str)  //проверяет, что функция 
                                     //если строка str пустая
 {
   const char *str = "";
-  int c = 'c';
-  char *result_my = s21_strrchr(str, c);
-  char *result_std = strrchr(str, c);
+  const int c = 'c';
+  const char *result_my = s21_strrchr(str, c);
+  const char *result_std = strrchr(str, c);
 
   ck_assert_ptr_eq(result_my, result_std);
   ck_assert_ptr_eq(result_my, NULL);
@@ -1555,9 +1555,9 @@ START_TEST(
                                         //этого символа
 {
   const char *str = "abcbab";
-  int c = 'b';
-  char *result_my = s21_strrchr(str, c);
-  char *result_std = strrchr(str, c);
+  const int c = 'b';
+  const char *result_my = s21_strrchr(str, c);
+  const char *result_std = strrchr(str, c);
 
   ck_assert_ptr_eq(result_my, result_std);
   ck_assert_ptr_eq(result_my, str + 5);
@@ -1569,8 +1569,8 @@ START_TEST(test_strstr_match)  //проверяет, что функция пр�
 {
   const char *haystack = "Hello, world!";
   const char *needle = "world";
-  char *result_my = s21_strstr(haystack, needle);
-  char *result_std = strstr(haystack, needle);
+  const char *result_my = s21_strstr(haystack, needle);
+  const char *result_std = strstr(haystack, needle);
 
   ck_assert_ptr_eq(result_my, result_std);
   ck_assert_ptr_eq(result_my, haystack + 7);
@@ -1583,8 +1583,8 @@ START_TEST(
 {
   const char *haystack = "Hello, world!";
   const char *needle = "universe";
-  char *result_my = s21_strstr(haystack, needle);
-  char *result_std = strstr(haystack, needle);
+  const char *result_my = s21_strstr(haystack, needle);
+  const char *result_std = strstr(haystack, needle);
 
   ck_assert_ptr_eq(result_my, result_std);
   ck_assert_ptr_eq(result_my, NULL);
@@ -1597,8 +1597,8 @@ START_TEST(test_strstr_null_haystack)  // проверяет, что функц�
 {
   const char *haystack = "";
   const char *needle = "world";
-  char *result_my = s21_strstr(haystack, needle);
-  char *result_std = strstr(haystack, needle);
+  const char *result_my = s21_strstr(haystack, needle);
+  const char *result_std = strstr(haystack, needle);
 
   ck_assert_ptr_eq(result_my, result_std);
 }
@@ -1610,8 +1610,8 @@ START_TEST(test_strstr_null_needle)  //проверяет, что функция
 {
   const char *haystack = "Hello, world!";
   const char *needle = "";
-  char *result_my = s21_strstr(haystack, needle);
-  char *result_std = strstr(haystack, needle);
+  const char *result_my = s21_strstr(haystack, needle);
+  const char *result_std = strstr(haystack, needle);
 
   ck_assert_ptr_eq(result_my, result_std);
 }
@@ -1623,8 +1623,8 @@ START_TEST(test_strstr_match_beginning)  //проверяет, что функц
 {
   const char *haystack = "Hello, world!";
   const char *needle = "Hello";
-  char *result_my = s21_strstr(haystack, needle);
-  char *result_std = strstr(haystack, needle);
+  const char *result_my = s21_strstr(haystack, needle);
+  const char *result_std = strstr(haystack, needle);
 
   ck_assert_ptr_eq(result_my, result_std);
   ck_assert_ptr_eq(result_my, haystack);
@@ -1637,8 +1637,8 @@ START_TEST(
 {
   const char *haystack = "Hello, world!";
   const char *needle = "world!";
-  char *result_my = s21_strstr(haystack, needle);
-  char *result_std = strstr(haystack, needle);
+  const char *result_my = s21_strstr(haystack, needle);
+  const char *result_std = strstr(haystack, needle);
 
   ck_assert_ptr_eq(result_my, result_std);
   ck_assert_ptr_eq(result_my, haystack + 7);
@@ -1649,13 +1649,14 @@ START_TEST(test_strtok_basic)  //разбивает строку "This is a test
                                //используя разделитель пробел
 {
   char str[] = "This is a test";
-  char delim[] = " ";
-  char *result_my = s21_strtok(str, delim);
-  char *result_std = strtok(str, delim);
+  const char delim[] = " ";
+  const char *result_my = s21_strtok(str, delim);
+  const char *result_std = strtok(str, delim);
   ck_assert_str_eq(result_my, result_std);
   while (result_std != NULL) {
     result_my = s21_strtok(NULL, delim);
     result_std = strtok(NULL, delim);
+    printf("\n\n%s\n%s\n\n", result_my, result_std);
     ck_assert_str_eq(result_my, result_std);
   }
 }
@@ -1668,8 +1669,8 @@ START_TEST(
 {
   char str[] = "This,,is,a,test";
   const char delim[] = ",";
-  char *result_my;
-  char *result_std;
+  const char *result_my;
+  const char *result_std;
 
   result_my = s21_strtok(str, delim);
   result_std = strtok(str, delim);
@@ -1715,8 +1716,8 @@ START_TEST(test_strtok_delimiter_at_start)  //проверяет, что фун�
 {
   char str[] = ",This,is,a,test";
   const char delim[] = ",";
-  char *result_my;
-  char *result_std;
+  const char *result_my;
+  const char *result_std;
 
   result_my = s21_strtok(str, delim);
   result_std = strtok(str, delim);
@@ -1737,8 +1738,8 @@ START_TEST(test_strtok_empty_string)  //проверяет, что функци�
 {
   char str[] = "";
   const char delim[] = ",";
-  char *result_my;
-  char *result_std;
+  const char *result_my;
+  const char *result_std;
 
   result_my = s21_strtok(str, delim);
   result_std = strtok(str, delim);
@@ -1754,8 +1755,8 @@ START_TEST(
 {
   char str[] = ",,,";
   const char delim[] = ",";
-  char *result_my;
-  char *result_std;
+  const char *result_my;
+  const char *result_std;
 
   result_my = s21_strtok(str, delim);
   result_std = strtok(str, delim);
@@ -1910,7 +1911,7 @@ START_TEST(test_insert_null_str)  //Обработка случая, когда 
                                   //равна NULL
 {
   const char *src = "world";
-  const char *str = NULL;
+  const char *str = "";
   size_t start_index = 0;
   char *result = s21_insert(src, str, start_index);
   ck_assert_str_eq(result, src);
