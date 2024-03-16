@@ -2,7 +2,7 @@ PUTb=-I/Users/theiaing/.brew/Cellar/check/0.15.2/include
 
 gcc = gcc -std=c11
 flags = -Wall -Werror -Wextra
-TEST= *.c TESTS/*.c
+TEST= *.a TESTS/*.c
 TEST_FLAGS = -lcheck
 
 OS := $(shell uname -s)
@@ -17,12 +17,12 @@ all: build
 
 build: s21_string.a
 
-gcov_report: clean
-	$(gcc) --coverage $(TEST_FLAGS) $(PUTb) $(flags) $(TEST) -o test
+gcov_report: clean s21_string.a
+	$(gcc) --coverage $(TEST_FLAGS) $(flags) $(TEST) -o test
 	./test
 	lcov -t "test" -o test.info -c -d . 
 	genhtml -o report test.info
-	open report/index.html
+	open ./report/index.html
 
 s21_string.a: s21_string.h
 	gcc -Wall -Werror -Wextra -c s21_string.c s21_sprintf.c
@@ -31,7 +31,7 @@ s21_string.a: s21_string.h
 	rm -rf *.o
 
 test: s21_string.a TESTS/s21_string_test.c
-	gcc TESTS/s21_string_test.c s21_string.a -lcheck $(PUTb) -o s21_string_test
+	gcc $(flags) TESTS/s21_string_test.c s21_string.a -lcheck -o s21_string_test
 
 check:
 	clang-format -i *.c *.h
@@ -45,5 +45,7 @@ clean:
 	rm -rf *.gcda
 	rm -f test
 	rm -rf *.a *.o
+	rm -rf report
+	rm -rf *.info
 
 rebuild: clean build
