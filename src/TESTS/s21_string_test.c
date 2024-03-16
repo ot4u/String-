@@ -205,12 +205,12 @@ END_TEST
 START_TEST(test_memchr)  //проверяет работу функции для символа, который
                          //присутствует в строке
 {
-  const const char str[] = "Example string";
+  const char str[] = "Example string";
   const int c = 'p';
   size_t n = sizeof(str);
 
-  const const void *result_my = s21_memchr(str, c, n);
-  const const void *result_std = memchr(str, c, n);
+  const void *result_my = s21_memchr(str, c, n);
+  const void *result_std = memchr(str, c, n);
 
   ck_assert_msg(result_my == result_std, "Expected: %p, Got: %p", result_std,
                 result_my);
@@ -220,12 +220,12 @@ END_TEST
 START_TEST(test_memchr_null)  //проверяет работу функции, когда искомый символ
                               //отсутствует в строке
 {
-  const const char str[] = "Example string";
+  const char str[] = "Example string";
   const int c = 'z';
   size_t n = sizeof(str);
 
-  const const void *result_my = s21_memchr(str, c, n);
-  const const void *result_std = memchr(str, c, n);
+  const void *result_my = s21_memchr(str, c, n);
+  const void *result_std = memchr(str, c, n);
 
   ck_assert_msg(result_my == result_std, "Expected: %p, Got: %p", result_std,
                 result_my);
@@ -236,12 +236,12 @@ START_TEST(test_memchr_first_occurrence)  //проверяет, что функ�
                                           //правильный указатель для первого
                                           //вхождения символа в строку
 {
-  const const char str[] = "Example string";
+  const char str[] = "Example string";
   const int c = 's';
   size_t n = sizeof(str);
 
-  const const void *result_my = s21_memchr(str, c, n);
-  const const void *result_std = memchr(str, c, n);
+  const void *result_my = s21_memchr(str, c, n);
+  const void *result_std = memchr(str, c, n);
 
   ck_assert_msg(result_my == result_std, "Expected: %p, Got: %p", result_std,
                 result_my);
@@ -253,12 +253,12 @@ START_TEST(test_memchr_last_occurrence)  //проверяет, что функц
                                          //правильный указатель для последнего
                                          //вхождения символа в строку
 {
-  const const char str[] = "Example string";
+  const char str[] = "Example string";
   const int c = 'g';
   size_t n = sizeof(str);
 
-  const const void *result_my = s21_memchr(str, c, n);
-  const const void *result_std = memchr(str, c, n);
+  const void *result_my = s21_memchr(str, c, n);
+  const void *result_std = memchr(str, c, n);
 
   ck_assert_msg(result_my == result_std, "Expected: %p, Got: %p", result_std,
                 result_my);
@@ -269,12 +269,12 @@ END_TEST
 START_TEST(test_memchr_single_char)  //проверяет, что функция правильно находит
                                      //единственный символ в строке
 {
-  const const char str[] = "a";
+  const char str[] = "a";
   const int c = 'a';
   size_t n = sizeof(str);
 
-  const const void *result_my = s21_memchr(str, c, n);
-  const const void *result_std = memchr(str, c, n);
+  const void *result_my = s21_memchr(str, c, n);
+  const void *result_std = memchr(str, c, n);
 
   ck_assert_msg(result_my == result_std, "Expected: %p, Got: %p", result_std,
                 result_my);
@@ -286,12 +286,12 @@ START_TEST(
                                  //первое вхождение символа в строке, когда
                                  //символ встречается несколько раз
 {
-  const const char str[] = "aabbaabb";
+  const char str[] = "aabbaabb";
   const int c = 'b';
   size_t n = sizeof(str);
 
-  const const void *result_my = s21_memchr(str, c, n);
-  const const void *result_std = memchr(str, c, n);
+  const void *result_my = s21_memchr(str, c, n);
+  const void *result_std = memchr(str, c, n);
 
   ck_assert_msg(result_my == result_std, "Expected: %p, Got: %p", result_std,
                 result_my);
@@ -302,12 +302,12 @@ START_TEST(
     test_memchr_not_in_string)  //проверяет, что функция возвращает NULL, когда
                                 //искомый символ отсутствует в строке
 {
-  const const char str[] = "Example string";
+  const char str[] = "Example string";
   const int c = 'x';
   size_t n = sizeof(str);
 
-  const const void *result_my = s21_memchr(str, c, n);
-  const const void *result_std = memchr(str, c, n);
+  const void *result_my = s21_memchr(str, c, n);
+  const void *result_std = memchr(str, c, n);
 
   ck_assert_msg(result_my == result_std, "Expected: %p, Got: %p", result_std,
                 result_my);
@@ -317,12 +317,12 @@ END_TEST
 START_TEST(
     test_memchr_empty_string)  //проверяет работу функции с пустой строкой
 {
-  const const char str[] = "";
+  const char str[] = "";
   const int c = 'a';
   size_t n = sizeof(str);
 
-  const const void *result_my = s21_memchr(str, c, n);
-  const const void *result_std = memchr(str, c, n);
+  const void *result_my = s21_memchr(str, c, n);
+  const void *result_std = memchr(str, c, n);
 
   ck_assert_msg(result_my == result_std, "Expected: %p, Got: %p", result_std,
                 result_my);
@@ -1648,17 +1648,13 @@ END_TEST
 START_TEST(test_strtok_basic)  //разбивает строку "This is a test" на токены,
                                //используя разделитель пробел
 {
-  char str[] = "This is a test";
-  const char delim[] = " ";
-  const char *result_my = s21_strtok(str, delim);
-  const char *result_std = strtok(str, delim);
-  ck_assert_str_eq(result_my, result_std);
-  while (result_std != NULL) {
-    result_my = s21_strtok(NULL, delim);
-    result_std = strtok(NULL, delim);
-    printf("\n\n%s\n%s\n\n", result_my, result_std);
-    ck_assert_str_eq(result_my, result_std);
-  }
+  char str[30] = "abc cde,llf.ggg";
+  char str2[30] = "abc cde,llf.ggg";
+  ck_assert_int_eq(strcmp(s21_strtok(str, " .,"), strtok(str2, " .,")), 0);
+  ck_assert_int_eq(strcmp(s21_strtok(NULL, " .,"), strtok(NULL, " .,")), 0);
+  ck_assert_int_eq(strcmp(s21_strtok(NULL, " .,"), strtok(NULL, " .,")), 0);
+  ck_assert_int_eq(strcmp(s21_strtok(NULL, " .,"), strtok(NULL, " .,")), 0);
+  ck_assert_msg(s21_strtok(NULL, " .,") == strtok(NULL, " .,"), "FAILURE!");
 }
 END_TEST
 
@@ -1667,46 +1663,13 @@ START_TEST(
                                       //случай, когда в строке есть несколько
                                       //разделителей подряд
 {
-  char str[] = "This,,is,a,test";
-  const char delim[] = ",";
-  const char *result_my;
-  const char *result_std;
-
-  result_my = s21_strtok(str, delim);
-  result_std = strtok(str, delim);
-
-  ck_assert_str_eq(result_my, result_std);
-  ck_assert_str_eq(result_my, "This");
-
-  result_my = s21_strtok(NULL, delim);
-  result_std = strtok(NULL, delim);
-
-  ck_assert_str_eq(result_my, result_std);
-  ck_assert_str_eq(result_my, "");
-
-  result_my = s21_strtok(NULL, delim);
-  result_std = strtok(NULL, delim);
-
-  ck_assert_str_eq(result_my, result_std);
-  ck_assert_str_eq(result_my, "is");
-
-  result_my = s21_strtok(NULL, delim);
-  result_std = strtok(NULL, delim);
-
-  ck_assert_str_eq(result_my, result_std);
-  ck_assert_str_eq(result_my, "a");
-
-  result_my = s21_strtok(NULL, delim);
-  result_std = strtok(NULL, delim);
-
-  ck_assert_str_eq(result_my, result_std);
-  ck_assert_str_eq(result_my, "test");
-
-  result_my = s21_strtok(NULL, delim);
-  result_std = strtok(NULL, delim);
-
-  ck_assert_ptr_eq(result_my, result_std);
-  ck_assert_ptr_eq(result_my, NULL);
+  char str[30] = "abc  cde,llf...ggg";
+  char str2[30] = "abc  cde,llf...ggg";
+  ck_assert_int_eq(strcmp(s21_strtok(str, " .,"), strtok(str2, " .,")), 0);
+  ck_assert_int_eq(strcmp(s21_strtok(NULL, " .,"), strtok(NULL, " .,")), 0);
+  ck_assert_int_eq(strcmp(s21_strtok(NULL, " .,"), strtok(NULL, " .,")), 0);
+  ck_assert_int_eq(strcmp(s21_strtok(NULL, " .,"), strtok(NULL, " .,")), 0);
+  ck_assert_msg(s21_strtok(NULL, " .,") == strtok(NULL, " .,"), "FAILURE!");
 }
 END_TEST
 
@@ -1714,38 +1677,22 @@ START_TEST(test_strtok_delimiter_at_start)  //проверяет, что фун�
                                             //обрабатывает случай, когда строка
                                             //начинается с разделителя
 {
-  char str[] = ",This,is,a,test";
-  const char delim[] = ",";
-  const char *result_my;
-  const char *result_std;
-
-  result_my = s21_strtok(str, delim);
-  result_std = strtok(str, delim);
-
-  ck_assert_str_eq(result_my, result_std);
-  ck_assert_str_eq(result_my, "");
-
-  result_my = s21_strtok(NULL, delim);
-  result_std = strtok(NULL, delim);
-
-  ck_assert_str_eq(result_my, result_std);
-  ck_assert_str_eq(result_my, "This");
+  char str[30] = " abc cde,llf.ggg";
+  char str2[30] = " abc cde,llf.ggg";
+  ck_assert_int_eq(strcmp(s21_strtok(str, " .,"), strtok(str2, " .,")), 0);
+  ck_assert_int_eq(strcmp(s21_strtok(NULL, " .,"), strtok(NULL, " .,")), 0);
+  ck_assert_int_eq(strcmp(s21_strtok(NULL, " .,"), strtok(NULL, " .,")), 0);
+  ck_assert_int_eq(strcmp(s21_strtok(NULL, " .,"), strtok(NULL, " .,")), 0);
+  ck_assert_msg(s21_strtok(NULL, " .,") == strtok(NULL, " .,"), "FAILURE!");
 }
 END_TEST
 
 START_TEST(test_strtok_empty_string)  //проверяет, что функция возвращает NULL,
                                       //если строка является пустой
 {
-  char str[] = "";
-  const char delim[] = ",";
-  const char *result_my;
-  const char *result_std;
-
-  result_my = s21_strtok(str, delim);
-  result_std = strtok(str, delim);
-
-  ck_assert_str_eq(result_my, result_std);
-  ck_assert_ptr_eq(result_my, NULL);
+  char *str = "";
+  char *str2 = "";
+  ck_assert_msg(s21_strtok(str, " .,") == strtok(str2, " .,"), "FAILURE");
 }
 END_TEST
 
@@ -1753,16 +1700,9 @@ START_TEST(
     test_strtok_delimiters_only)  //проверяет, что функция возвращает NULL, если
                                   //строка содержит только разделители.
 {
-  char str[] = ",,,";
-  const char delim[] = ",";
-  const char *result_my;
-  const char *result_std;
-
-  result_my = s21_strtok(str, delim);
-  result_std = strtok(str, delim);
-
-  ck_assert_str_eq(result_my, result_std);
-  ck_assert_ptr_eq(result_my, NULL);
+  char str[30] = ",,,";
+  char str2[30] = ",,,";
+  ck_assert_msg(s21_strtok(str, " .,") == strtok(str2, " .,"), "FAILURE!");
 }
 END_TEST
 

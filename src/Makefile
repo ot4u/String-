@@ -18,7 +18,7 @@ all: build
 build: s21_string.a
 
 gcov_report: clean
-	$(gcc) --coverage $(TEST_FLAGS) $(flags) $(TEST) -o test
+	$(gcc) --coverage $(TEST_FLAGS) $(PUTb) $(flags) $(TEST) -o test
 	./test
 	lcov -t "test" -o test.info -c -d . 
 	genhtml -o report test.info
@@ -42,6 +42,7 @@ check:
 clean:
 	rm -rf s21_string_test
 	rm -rf *.gcno
+	rm -rf *.gcda
 	rm -f test
 	rm -rf *.a *.o
 
