@@ -17,8 +17,8 @@ all: build
 
 build: s21_string.a
 
-gcov_report: clean s21_string.a
-	$(gcc) --coverage $(TEST_FLAGS) $(flags) $(TEST) -o test
+gcov_report: s21_string.a TESTS/s21_string_test.c
+	gcc $(flags) TESTS/s21_string_test.c s21_string.a -lcheck $(TEST_FLAGS) -o test
 	./test
 	lcov -t "test" -o test.info -c -d . 
 	genhtml -o report test.info
@@ -31,7 +31,7 @@ s21_string.a: s21_string.h
 	rm -rf *.o
 
 test: s21_string.a TESTS/s21_string_test.c
-	gcc $(flags) TESTS/s21_string_test.c s21_string.a -lcheck -o s21_string_test
+	gcc $(flags) TESTS/s21_string_test.c s21_string.a -lcheck $(TEST_FLAGS) -o s21_string_test
 
 check:
 	clang-format -i *.c *.h
