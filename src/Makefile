@@ -8,7 +8,7 @@ all: build
 build: s21_string.a
 
 gcov_report: clean s21_string.a
-	$(gcc) --coverage $(flags) $(TEST) -o test
+	$(gcc) --coverage $(flags) $(TEST) $(TEST_FLAGS) -o test
 	./test
 	lcov -t "test" -o test.info -c -d . 
 	genhtml -o report test.info
