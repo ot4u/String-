@@ -1,7 +1,7 @@
 #include "s21_string.h"
 
 #include "s21_sprintf.h"
-//набросок
+// набросок
 
 #if defined __linux__
 #define MinCount 0
