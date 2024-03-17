@@ -1,41 +1,77 @@
-gcc = gcc -std=c11
-flags = -Wall -Werror -Wextra $(shell pkg-config --cflags check)
-TEST= *.a TESTS/*.c
-TEST_FLAGS = $(shell pkg-config --libs check)
+CC=gcc
 
-all: build
+TARGET?=s21_string.a
+TEST_TARGET?=test_s21_string.a
+TEST_EXE?=test_s21_string
 
-build: s21_string.a
+SRCS=$(wildcard s21_*.c)
+OBJ=$(SRCS:.c=.o)
 
-gcov_report: clean s21_string.a
-	$(gcc) --coverage $(flags) $(TEST) $(TEST_FLAGS) -o test
-	./test
-	lcov -t "test" -o test.info -c -d . 
-	genhtml -o report test.info
-	open ./report/index.html
+TEST_SRC_DIR?=./StringUnittest
+TEST_INC_DIR?=./
+TEST_OBJ_DIR?=./StringUnittest/obj
 
-s21_string.a: s21_string.h s21_sprintf.h
-	gcc -Wall -Werror -Wextra -c s21_string.c s21_sprintf.c
-	ar rc s21_string.a *.o
-	ranlib s21_string.a
-	rm -rf *.o
+TEST_INC:=$(shell find $(TEST_INC_DIR) -name "s21_*.h")
+TEST_SRC:=$(shell find $(TEST_SRC_DIR) -name "s21_*.c")
+TEST_OBJ:=$(addprefix $(TEST_OBJ_DIR)/, $(notdir $(TEST_SRC:.c=.o)))
 
-test: s21_string.a TESTS/s21_string_test.c
-	$(gcc) $(flags) TESTS/s21_string_test.c s21_string.a $(TEST_FLAGS) -o s21_string_test
+AR:= ar rc
+RAN:= ranlib
+MK:= mkdir -p
+RM:= rm -f
 
-check:
-	clang-format -i *.c *.h
-	clang-format -i TESTS/*.c
-	cppcheck --enable=all --suppress=missingIncludeSystem *.c *.h TESTS/*.c
-	valgrind --tool=memcheck --leak-check=yes ./s21_string_test
+CFLAGS= -Wall -Wextra -Werror -std=c11
+TEST_CFLAGS= -g $(CFLAGS) $(shell pkg-config --cflags --libs check) -lm
+
+all: $(TARGET)
+
+$(TARGET): $(OBJ)
+	@$(AR) $(TARGET) $(OBJ)
+	@$(RAN) $(TARGET)
+	@echo "\033[22;90m$(TARGET) has been changed and recompiled.\033[0m"
+
+$(TEST_TARGET): $(TEST_OBJ)
+	@$(AR) $(TEST_TARGET) $(TEST_OBJ)
+	@$(RAN) $(TEST_TARGET)
+	@echo "\033[22;90m$(TEST_TARGET) has been changed and recompiled.\033[0m"
+
+%.o: %.c
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(TEST_OBJ): $(TEST_OBJ_DIR)%.o: $(TEST_SRC_DIR)%.c $(TEST_INC)
+	@$(MK) $(TEST_OBJ_DIR)
+	@$(CC) -c $(CFLAGS) -o $@ -c $< -I $(TEST_INC_DIR)
+
+test: $(TARGET) $(TEST_TARGET)
+	@$(CC) $(TEST_OBJ) $(TEST_TARGET) -o $(TEST_EXE) $(TEST_CFLAGS) -L. $(TARGET)
+	@./$(TEST_EXE)
+	
+add-coverage:
+	$(eval CFLAGS += --coverage)
+
+gcov_report: clean add-coverage test
+	@gcovr -o gcov_report.html --html --html-self-contained
+
+clang:
+	@cp ../materials/linters/.clang-format ./.clang-format
+	@clang-format -n --style=file *.c *.h StringUnittest/*.c
+	@$(RM) .clang-format
+
+clang-fix:
+	@cp ../materials/linters/.clang-format ./.clang-format
+	@clang-format -i --style=file *.c *.h StringUnittest/*.c
+	@$(RM) .clang-format
 
 clean:
-	rm -rf s21_string_test
-	rm -rf *.gcno
-	rm -rf *.gcda
-	rm -f test
-	rm -rf *.a *.o
-	rm -rf report
-	rm -rf *.info
+	@$(RM) $(OBJ)
+	@$(RM) -rd $(TEST_OBJ_DIR)
+	@$(RM) $(TARGET)
+	@$(RM) $(TEST_TARGET)
+	@$(RM) $(TEST_EXE)
+	@$(RM) gcov*
+	@$(RM) *.gcda tests/*.gcda
+	@$(RM) *.gcno tests/*.gcno
 
-rebuild: clean build
+	@echo "\033[1;31mAll objects have been removed.\033[0m"
+
+re: clean all

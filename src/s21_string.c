@@ -5,8 +5,8 @@
 
 #if defined __linux__
 #define MinCount 0
-#define MaxCount 132
-#define UnknownError "Unknown error: %d"
+#define MaxCount 133
+#define UnknownError "Unknown error %d"
 static const char *ErrorsMas[] = {
     "Success",
     "Operation not permitted",
@@ -52,11 +52,11 @@ static const char *ErrorsMas[] = {
     "Unknown error 41",
     "No message of desired type",
     "Identifier removed",
-    "Channel num out of range",
+    "Channel number out of range",
     "Level 2 not synchronized",
     "Level 3 halted",
     "Level 3 reset",
-    "Link num out of range",
+    "Link number out of range",
     "Protocol driver not attached",
     "No CSI structure available",
     "Level 2 halted",
@@ -529,6 +529,7 @@ void *s21_to_lower(const char *str) {
       for (s21_size_t i = 0; i < s21_strlen(str); i++) {  // s21_strlen
         if (ch[i] >= 'A' && ch[i] <= 'Z') ch[i] += 32;
       }
+      ch[s21_strlen(str)] = '\0';
     }
   }
   return ch;
@@ -543,9 +544,10 @@ void *s21_to_upper(const char *str) {
       for (s21_size_t i = 0; i < s21_strlen(str); i++) {  // s21_strlen
         if (ch[i] >= 'a' && ch[i] <= 'z') ch[i] -= 32;
       }
+      ch[s21_strlen(str)] = '\0';
     }
   }
-  return ch;
+  return (void *)ch;
 }
 
 void *s21_insert(const char *src, const char *str, size_t start_index) {
@@ -566,6 +568,7 @@ void *s21_insert(const char *src, const char *str, size_t start_index) {
       for (i = start_index; i < len; i++) {
         ch[i + j] = src[i];
       }
+      ch[len] = '\0';
     }
   }
   return ch;
@@ -617,8 +620,8 @@ void leftpart(char *str, const char *src, const char *trim_chars) {
 
 void *s21_trim(const char *src, const char *trim_chars) {
   char *str = s21_NULL;
-  if (src) {
-    str = (char *)malloc((s21_strlen(src) + 10) * sizeof(char));  // s21_strlen
+  if (src && trim_chars) {
+    str = (char *)malloc((s21_strlen(src) + 1) * sizeof(char));  // s21_strlen
     if (str) {
       char default_chars[10] = " \t\n\v\r\f\0";
       if (trim_chars == s21_NULL || s21_strlen(trim_chars) == 0)  // s21_strlen
