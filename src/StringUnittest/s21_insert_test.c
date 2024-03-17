@@ -1,90 +1,62 @@
 #include "s21_tests.h"
 
-START_TEST(insert_in_empty_str) {
-  char s21_str[] = "Hi";
-  char s21_src[] = "";
-  s21_size_t index = 3;
-
-  ck_assert_pstr_eq(s21_insert(s21_src, s21_str, index), s21_NULL);
+START_TEST(test_insert_basic)  //вставка строки в начало другой строки
+{
+  const char *src = "world";
+  const char *str = "hello ";
+  size_t start_index = 0;
+  char *result = s21_insert(src, str, start_index);
+  ck_assert_str_eq(result, "hello world");
+  free(result);
 }
 END_TEST
 
-START_TEST(simple_test) {
-  char s21_str[] = "my ";
-  char s21_src[] = "Hello world";
-  s21_size_t index = 6;
-
-  ck_assert_pstr_eq(s21_insert(s21_src, s21_str, index), "Hello my world");
+START_TEST(test_insert_middle)  //Вставка строки в середину другой строки
+{
+  const char *src = "Good!";
+  const char *str = " job";
+  size_t start_index = 4;
+  char *result = s21_insert(src, str, start_index);
+  ck_assert_str_eq(result, "Good job!");
+  free(result);
 }
 END_TEST
 
-START_TEST(insert_in_empty) {
-  char s21_str[] = "my";
-  char s21_src[] = "";
-  s21_size_t index = 0;
-
-  ck_assert_pstr_eq(s21_insert(s21_src, s21_str, index), "my");
+START_TEST(test_insert_end)  //Вставка строки в конец другой строки
+{
+  const char *src = "Have a ";
+  const char *str = "nice day";
+  size_t start_index = 7;
+  char *result = s21_insert(src, str, start_index);
+  ck_assert_str_eq(result, "Have a nice day");
+  free(result);
 }
 END_TEST
 
-START_TEST(insert_in_end) {
-  char s21_str[] = " job";
-  char s21_src[] = "Good";
-  s21_size_t index = 4;
-
-  ck_assert_pstr_eq(s21_insert(s21_src, s21_str, index), "Good job");
+START_TEST(test_insert_null_str)  //Обработка случая, когда вставляемая строка
+                                  //равна NULL
+{
+  const char *src = "world";
+  const char *str = "";
+  size_t start_index = 0;
+  char *result = s21_insert(src, str, start_index);
+  ck_assert_str_eq(result, src);
 }
 END_TEST
 
-START_TEST(insert_in_start) {
-  char s21_str[] = "School";
-  char s21_src[] = "21";
-  s21_size_t index = 0;
+Suite *suite_insert(void) {
+  Suite *suite;
+  TCase *tc_core;
 
-  ck_assert_pstr_eq(s21_insert(s21_src, s21_str, index), "School21");
-}
-END_TEST
+  suite = suite_create("insert");
+  tc_core = tcase_create("Core");
 
-START_TEST(insert_NULL) {
-  char* s21_str = s21_NULL;
-  char s21_src[] = "Some text";
-  s21_size_t index = 0;
+  tcase_add_test(tc_core, test_insert_basic);
+  tcase_add_test(tc_core, test_insert_middle);
+  tcase_add_test(tc_core, test_insert_end);
+  tcase_add_test(tc_core, test_insert_null_str);
 
-  ck_assert_pstr_eq(s21_insert(s21_src, s21_str, index), s21_NULL);
-}
-END_TEST
+  suite_add_tcase(suite, tc_core);
 
-START_TEST(insert_in_NULL) {
-  char s21_str[] = "Some text";
-  char* s21_src = s21_NULL;
-  s21_size_t index = 0;
-
-  ck_assert_pstr_eq(s21_insert(s21_src, s21_str, index), s21_NULL);
-}
-END_TEST
-
-START_TEST(insert_in_middle) {
-  char s21_str[] = "ret";
-  char s21_src[] = "consectetur";
-  s21_size_t index = 6;
-
-  ck_assert_pstr_eq(s21_insert(s21_src, s21_str, index), "consecrettetur");
-}
-END_TEST
-
-Suite* suite_insert() {
-  Suite* suite = suite_create("insert_suite");
-  TCase* tcase_core = tcase_create("insert_tc");
-
-  tcase_add_test(tcase_core, insert_in_empty_str);
-  tcase_add_test(tcase_core, simple_test);
-  tcase_add_test(tcase_core, insert_in_empty);
-  tcase_add_test(tcase_core, insert_in_end);
-  tcase_add_test(tcase_core, insert_in_start);
-  tcase_add_test(tcase_core, insert_NULL);
-  tcase_add_test(tcase_core, insert_in_NULL);
-  tcase_add_test(tcase_core, insert_in_middle);
-
-  suite_add_tcase(suite, tcase_core);
   return suite;
 }
