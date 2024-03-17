@@ -6,8 +6,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "s21_string.h"
-#include "s21_sprintf.h"
+#include "../s21_sprintf.h"
+#include "../s21_string.h"
 
 Suite *suite_insert(void);
 Suite *suite_memchr(void);

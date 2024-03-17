@@ -369,6 +369,7 @@ void apply_X(char *str, char *buff, va_list params, const options *opts) {
   apply_x(buff, params, opts);
   buff = s21_to_upper(buff);
   s21_strncat(str, buff, s21_strlen(buff));
+  free(buff);
 }
 
 void apply_e(char *str, va_list params, const options *opts) {
@@ -385,6 +386,7 @@ void apply_E(char *str, char *buff, va_list params, const options *opts) {
   apply_e(buff, params, opts);
   buff = s21_to_upper(buff);
   s21_strncat(str, buff, s21_strlen(buff));
+  free(buff);
 }
 
 void science_notaion(char *buff, long double *num, const options *opts,
@@ -480,6 +482,7 @@ void apply_G(char *str, char *buff, va_list params, const options *opts) {
   apply_g(buff, params, opts);
   buff = s21_to_upper(buff);
   s21_strncat(str, buff, s21_strlen(buff));
+  free(buff);
 }
 
 void remove_trail_zeros(char *buff) {

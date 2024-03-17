@@ -1,6 +1,6 @@
 #include "s21_tests.h"
 
-START_TEST(test_insert_basic)  //вставка строки в начало другой строки
+START_TEST(test_insert_basic)  // вставка строки в начало другой строки
 {
   const char *src = "world";
   const char *str = "hello ";
@@ -11,7 +11,7 @@ START_TEST(test_insert_basic)  //вставка строки в начало д�
 }
 END_TEST
 
-START_TEST(test_insert_middle)  //Вставка строки в середину другой строки
+START_TEST(test_insert_middle)  // Вставка строки в середину другой строки
 {
   const char *src = "Good!";
   const char *str = " job";
@@ -22,7 +22,7 @@ START_TEST(test_insert_middle)  //Вставка строки в середин�
 }
 END_TEST
 
-START_TEST(test_insert_end)  //Вставка строки в конец другой строки
+START_TEST(test_insert_end)  // Вставка строки в конец другой строки
 {
   const char *src = "Have a ";
   const char *str = "nice day";
@@ -33,14 +33,15 @@ START_TEST(test_insert_end)  //Вставка строки в конец дру�
 }
 END_TEST
 
-START_TEST(test_insert_null_str)  //Обработка случая, когда вставляемая строка
-                                  //равна NULL
+START_TEST(test_insert_null_str)  // Обработка случая, когда вставляемая строка
+                                  // равна NULL
 {
   const char *src = "world";
   const char *str = "";
   size_t start_index = 0;
   char *result = s21_insert(src, str, start_index);
   ck_assert_str_eq(result, src);
+  free(result);
 }
 END_TEST
 

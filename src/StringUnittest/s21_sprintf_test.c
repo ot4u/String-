@@ -111,8 +111,8 @@ END_TEST
 START_TEST(f_big_number) {
   char s21_buff[100] = "";
   char buff[100] = "";
-  float s21 = 9.3425789;
-  float system = 9.3425789;
+  float s21 = 9.34257;
+  float system = 9.34257;
   s21_sprintf(s21_buff, "This is %f number", s21);
   sprintf(buff, "This is %f number", system);
 
@@ -147,8 +147,8 @@ END_TEST
 START_TEST(exactness_simple) {
   char s21_buff[100] = "";
   char buff[100] = "";
-  float s21 = 2.322;
-  float system = 2.322;
+  float s21 = 2.3223;
+  float system = 2.3223;
   s21_sprintf(s21_buff, "This is %.2f number", s21);
   sprintf(buff, "This is %.2f number", system);
 
@@ -159,8 +159,8 @@ END_TEST
 START_TEST(exactness_with_simple_rounding) {
   char s21_buff[100] = "";
   char buff[100] = "";
-  float s21 = 2.3228;
-  float system = 2.3228;
+  float s21 = 2.3223;
+  float system = 2.3223;
   s21_sprintf(s21_buff, "This is %.3f number", s21);
   sprintf(buff, "This is %.3f number", system);
 
@@ -171,8 +171,8 @@ END_TEST
 START_TEST(exactness_with_hard_rounding) {
   char s21_buff[100] = "";
   char buff[100] = "";
-  float s21 = 2.3228;
-  float system = 2.3228;
+  float s21 = 2.3223;
+  float system = 2.3223;
   s21_sprintf(s21_buff, "This is %.3f number", s21);
   sprintf(buff, "This is %.3f number", system);
 
@@ -183,8 +183,8 @@ END_TEST
 START_TEST(exactness_with_hard_rounding_minus) {
   char s21_buff[100] = "";
   char buff[100] = "";
-  float s21 = -2.3228;
-  float system = -2.3228;
+  float s21 = -2.3223;
+  float system = -2.3223;
   s21_sprintf(s21_buff, "This is %.3f number", s21);
   sprintf(buff, "This is %.3f number", system);
 

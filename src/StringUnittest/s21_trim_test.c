@@ -3,56 +3,63 @@
 START_TEST(trim_null) {
   char s21_src[] = "Hi";
   char* s21_trim_chars = s21_NULL;
-
-  ck_assert_pstr_eq(s21_trim(s21_src, s21_trim_chars), s21_NULL);
+  void* res = s21_trim(s21_src, s21_trim_chars);
+  ck_assert_pstr_eq(res, s21_NULL);
+  free(res);
 }
 END_TEST
 
 START_TEST(trim_in_end) {
   char s21_src[] = "Hi    ";
   char* s21_trim_chars = " ";
-
-  ck_assert_pstr_eq(s21_trim(s21_src, s21_trim_chars), "Hi");
+  void* res = s21_trim(s21_src, s21_trim_chars);
+  ck_assert_pstr_eq(res, "Hi");
+  free(res);
 }
 END_TEST
 
 START_TEST(trim_in_start_and_end) {
   char s21_src[] = "  Hi    ";
   char* s21_trim_chars = " ";
-
-  ck_assert_pstr_eq(s21_trim(s21_src, s21_trim_chars), "Hi");
+  void* res = s21_trim(s21_src, s21_trim_chars);
+  ck_assert_pstr_eq(res, "Hi");
+  free(res);
 }
 END_TEST
 
 START_TEST(simple_trim) {
   char s21_src[] = "Hello Peer";
   char* s21_trim_chars = "Hel";
-
-  ck_assert_pstr_eq(s21_trim(s21_src, s21_trim_chars), "o Peer");
+  void* res = s21_trim(s21_src, s21_trim_chars);
+  ck_assert_pstr_eq(res, "o Peer");
+  free(res);
 }
 END_TEST
 
 START_TEST(trim_all) {
   char s21_src[] = "Adventure";
   char* s21_trim_chars = "Adventure";
-
-  ck_assert_pstr_eq(s21_trim(s21_src, s21_trim_chars), "");
+  void* res = s21_trim(s21_src, s21_trim_chars);
+  ck_assert_pstr_eq(res, "");
+  free(res);
 }
 END_TEST
 
 START_TEST(trim_in_null) {
   char* s21_src = s21_NULL;
   char* s21_trim_chars = " ";
-
-  ck_assert_pstr_eq(s21_trim(s21_src, s21_trim_chars), s21_NULL);
+  void* res = s21_trim(s21_src, s21_trim_chars);
+  ck_assert_pstr_eq(res, s21_NULL);
+  free(res);
 }
 END_TEST
 
 START_TEST(non_existent_trim) {
   char s21_src[] = "Hello";
   char* s21_trim_chars = "m";
-
-  ck_assert_pstr_eq(s21_trim(s21_src, s21_trim_chars), "Hello");
+  void* res = s21_trim(s21_src, s21_trim_chars);
+  ck_assert_pstr_eq(res, "Hello");
+  free(res);
 }
 END_TEST
 

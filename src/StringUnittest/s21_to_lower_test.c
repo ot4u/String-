@@ -2,22 +2,25 @@
 
 START_TEST(simple_lower_case) {
   const char s21_str[] = "ABC";
-
-  ck_assert_str_eq(s21_to_lower(s21_str), "abc");
+  void* res = s21_to_lower(s21_str);
+  ck_assert_str_eq(res, "abc");
+  free(res);
 }
 END_TEST
 
 START_TEST(letters_and_numbers) {
   char s21_str[] = "ABC123ABC";
-
-  ck_assert_str_eq(s21_to_lower(s21_str), "abc123abc");
+  void* res = s21_to_lower(s21_str);
+  ck_assert_str_eq(res, "abc123abc");
+  free(res);
 }
 END_TEST
 
 START_TEST(lowercase) {
   char s21_str[] = "abc";
-
-  ck_assert_str_eq(s21_to_lower(s21_str), "abc");
+  void* res = s21_to_lower(s21_str);
+  ck_assert_str_eq(res, "abc");
+  free(res);
 }
 END_TEST
 
